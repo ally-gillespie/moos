@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Serve existing files from public/ directly (assets, etc.)
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+    RewriteRule ^ public%{REQUEST_URI} [L]
+
+    # Everything else goes through Laravel
+    RewriteRule ^ public/index.php [L]
+</IfModule>
+
+# Block direct access to sensitive files
+<FilesMatch "(^\.env|composer\.json|composer\.lock|artisan)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
