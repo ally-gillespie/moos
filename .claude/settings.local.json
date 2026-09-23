@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -l /Users/gillespiel/Documents/Wordpress/moos/app/Livewire/OrderForm.php)",
+      "Bash(php -l /Users/gillespiel/Documents/Wordpress/moos/app/Livewire/PosForm.php)",
+      "Bash(php -l /Users/gillespiel/Documents/Wordpress/moos/app/Livewire/MenuManager.php)"
+    ]
+  }
+}
