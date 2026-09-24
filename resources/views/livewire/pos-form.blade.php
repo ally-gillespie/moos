@@ -27,7 +27,14 @@
         {{-- Cart items --}}
         <div class="space-y-4">
             @foreach($this->cart as $index => $item)
-                <div class="border rounded-lg p-4 bg-white space-y-3">
+                <div wire:key="cart-{{ $index }}"
+                     class="border rounded-lg p-4 bg-white space-y-3"
+                     x-data="{
+                         removed: @js($item['removed'] ?? []),
+                         added: @js(array_column($item['added'] ?? [], 'ingredient')),
+                         toggleR(ing) { const i = this.removed.indexOf(ing); i >= 0 ? this.removed.splice(i, 1) : this.removed.push(ing); },
+                         toggleA(ing) { const i = this.added.indexOf(ing); i >= 0 ? this.added.splice(i, 1) : this.added.push(ing); },
+                     }">
 
                     <div class="flex justify-between items-start">
                         <select
@@ -56,22 +63,22 @@
                         <div>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($menu['standard_ingredients'] as $ingredient)
-                                    @php $isRemoved = in_array($ingredient, $item['removed'] ?? []); @endphp
                                     <button type="button"
                                         wire:click="toggleRemoved({{ $index }}, '{{ $ingredient }}')"
-                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors {{ $isRemoved ? 'bg-red-100 border-red-400 text-red-700' : 'hover:bg-neutral-50' }}">
+                                        @click="toggleR('{{ $ingredient }}')"
+                                        :class="removed.includes('{{ $ingredient }}') ? 'bg-red-100 border-red-400 text-red-700' : 'hover:bg-neutral-50'"
+                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors">
                                         No {{ $ingredient }}
                                     </button>
                                 @endforeach
                             </div>
                             <div class="flex flex-wrap gap-2 mt-2">
                                 @foreach($menu['paid_extras'] as $extra)
-                                    @php
-                                        $isAdded = collect($item['added'] ?? [])->contains('ingredient', $extra['key']);
-                                    @endphp
                                     <button type="button"
                                         wire:click="toggleExtra({{ $index }}, '{{ $extra['key'] }}', {{ $extra['price_pence'] }})"
-                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors {{ $isAdded ? 'bg-green-100 border-green-400 text-green-700' : 'hover:bg-neutral-50' }}">
+                                        @click="toggleA('{{ $extra['key'] }}')"
+                                        :class="added.includes('{{ $extra['key'] }}') ? 'bg-green-100 border-green-400 text-green-700' : 'hover:bg-neutral-50'"
+                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors">
                                         + {{ $extra['name'] }}
                                     </button>
                                 @endforeach
@@ -82,12 +89,11 @@
                         @if(count($itemExtras) > 0)
                             <div class="flex flex-wrap gap-2">
                                 @foreach($itemExtras as $extra)
-                                    @php
-                                        $isAdded = collect($item['added'] ?? [])->contains('ingredient', $extra['key']);
-                                    @endphp
                                     <button type="button"
                                         wire:click="toggleExtra({{ $index }}, '{{ $extra['key'] }}', {{ $extra['price_pence'] }})"
-                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors {{ $isAdded ? 'bg-green-100 border-green-400 text-green-700' : 'hover:bg-neutral-50' }}">
+                                        @click="toggleA('{{ $extra['key'] }}')"
+                                        :class="added.includes('{{ $extra['key'] }}') ? 'bg-green-100 border-green-400 text-green-700' : 'hover:bg-neutral-50'"
+                                        class="text-sm border rounded-full px-3 py-1 cursor-pointer transition-colors">
                                         + {{ $extra['name'] }}{{ $extra['price_pence'] > 0 ? ' (+£' . number_format($extra['price_pence'] / 100, 2) . ')' : '' }}
                                     </button>
                                 @endforeach
