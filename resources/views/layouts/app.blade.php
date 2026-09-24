@@ -7,6 +7,7 @@
     <title>{{ $title ?? "Moo's" }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <style>[x-cloak]{display:none!important}</style>
 </head>
 <body class="{{ $bodyClass ?? 'bg-neutral-100 min-h-screen' }}">
     {{ $slot }}

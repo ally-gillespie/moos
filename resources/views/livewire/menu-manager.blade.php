@@ -3,7 +3,7 @@
     {{-- Header --}}
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">Menu Management</h1>
-        <a href="{{ route('kitchen.index') }}" class="text-sm underline text-neutral-600">Back to kitchen</a>
+        <a wire:navigate href="{{ route('kitchen.index') }}" class="text-sm underline text-neutral-600">Back to kitchen</a>
     </div>
 
     @if($flash)

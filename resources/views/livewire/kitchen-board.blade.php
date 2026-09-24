@@ -5,10 +5,10 @@
         <h1 class="text-2xl font-bold">Orders</h1>
         <div class="flex items-center gap-4">
             @if(session('staff_role') === 'manager')
-                <a href="{{ route('pos.create') }}" class="text-sm underline">Go to POS</a>
-                <a href="{{ route('archive.index') }}" class="text-sm underline">Archive</a>
-                <a href="{{ route('menu.index') }}" class="text-sm underline">Menu</a>
-                <a href="{{ route('admin.index') }}" class="text-sm underline">Admin</a>
+                <a wire:navigate href="{{ route('pos.create') }}" class="text-sm underline">Go to POS</a>
+                <a wire:navigate href="{{ route('archive.index') }}" class="text-sm underline">Archive</a>
+                <a wire:navigate href="{{ route('menu.index') }}" class="text-sm underline">Menu</a>
+                <a wire:navigate href="{{ route('admin.index') }}" class="text-sm underline">Admin</a>
             @endif
             <form method="POST" action="{{ route('kitchen.logout') }}" class="flex items-center">
                 @csrf

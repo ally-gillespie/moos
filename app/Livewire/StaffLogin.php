@@ -45,6 +45,12 @@ class StaffLogin extends Component
         $this->pin = '';
     }
 
+    public function loginWithPin(string $pin): mixed
+    {
+        $this->pin = $pin;
+        return $this->login();
+    }
+
     public function login(): mixed
     {
         $staff = Staff::where('id', $this->selectedStaffId)->where('active', true)->first();
@@ -52,6 +58,7 @@ class StaffLogin extends Component
         if (! $staff || ! $staff->checkPin($this->pin)) {
             $this->error = 'Incorrect PIN.';
             $this->pin = '';
+            $this->dispatch('pin-error');
             return null;
         }
 

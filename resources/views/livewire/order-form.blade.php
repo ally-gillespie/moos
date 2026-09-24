@@ -105,36 +105,36 @@
         <div class="border-t pt-4">
             <label class="block text-sm font-medium mb-1">Name (for calling out your order)</label>
             <input type="text"
-                wire:model.live="customerName"
+                wire:model.blur="customerName"
                 maxlength="60"
                 class="w-full border rounded-lg px-3 py-2"
                 placeholder="Optional">
         </div>
 
         {{-- SMS consent --}}
-        <div class="border rounded-lg p-4 bg-neutral-50">
+        <div class="border rounded-lg p-4 bg-neutral-50" x-data="{ open: @js($smsOptIn) }">
             <label class="flex items-start gap-3 cursor-pointer select-none">
-                <input type="checkbox" wire:model.live="smsOptIn" class="rounded mt-0.5 shrink-0">
+                <input type="checkbox"
+                    wire:model="smsOptIn"
+                    @change="open = $event.target.checked"
+                    class="rounded mt-0.5 shrink-0">
                 <span class="text-sm">
                     <span class="font-medium">Text me when my order is ready</span>
                     <span class="block text-neutral-500 mt-1">We'll send a one-time SMS when your order is ready for collection. Standard message rates may apply.</span>
                 </span>
             </label>
 
-            @if($smsOptIn)
-                <div class="mt-3">
-                    <label class="block text-sm font-medium mb-1">Mobile number</label>
-                    <input type="tel"
-                        wire:model.live="phoneNumber"
-                        maxlength="20"
-                        placeholder="e.g. 07700 900123"
-                        class="w-full border rounded-lg px-3 py-2 @error('phoneNumber') border-red-400 @enderror"
-                        autofocus>
-                    @error('phoneNumber')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            @endif
+            <div x-show="open" x-cloak class="mt-3">
+                <label class="block text-sm font-medium mb-1">Mobile number</label>
+                <input type="tel"
+                    wire:model.blur="phoneNumber"
+                    maxlength="20"
+                    placeholder="e.g. 07700 900123"
+                    class="w-full border rounded-lg px-3 py-2 @error('phoneNumber') border-red-400 @enderror">
+                @error('phoneNumber')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
         {{-- Meal deal banner --}}

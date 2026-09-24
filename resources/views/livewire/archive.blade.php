@@ -8,7 +8,7 @@
 
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Sales Archive</h1>
-        <a href="{{ route('kitchen.index') }}" class="text-sm underline text-neutral-500">Back to kitchen</a>
+        <a wire:navigate href="{{ route('kitchen.index') }}" class="text-sm underline text-neutral-500">Back to kitchen</a>
     </div>
 
     {{-- Period switcher --}}

@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold">New Order</h1>
         <div class="flex items-center gap-4">
             @if(session('staff_role') === 'manager')
-                <a href="{{ route('kitchen.index') }}" class="text-sm underline">Go to kitchen</a>
+                <a wire:navigate href="{{ route('kitchen.index') }}" class="text-sm underline">Go to kitchen</a>
             @endif
             <form method="POST" action="{{ route('kitchen.logout') }}" class="flex items-center">
                 @csrf
