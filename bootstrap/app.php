@@ -18,10 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->web(append: [
             \App\Http\Middleware\StaffBroadcastAuth::class,
+            \App\Http\Middleware\NoIndex::class,
         ]);
-        if (app()->environment() !== 'production') {
-            $middleware->append(\App\Http\Middleware\NoIndex::class);
-        }
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

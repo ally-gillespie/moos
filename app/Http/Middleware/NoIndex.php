@@ -11,7 +11,9 @@ class NoIndex
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        if (!app()->isProduction()) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
         return $response;
     }
 }
